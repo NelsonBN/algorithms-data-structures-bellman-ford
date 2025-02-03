@@ -8,34 +8,34 @@ def bellman_ford(graph, origin):
     # Relax edges V-1 times
     for _ in range(len(graph) -1):
         updated = False
-        for departure, arrivals in graph.items():
-            for arrival, cost in arrivals.items():
-                current_distance, _ = predecessors[departure]
-                new_accumulated_cost = current_distance + cost
-                if new_accumulated_cost < predecessors[arrival][0]:
-                    predecessors[arrival] = (new_accumulated_cost, departure)
+        for node, neighbors in graph.items():
+            for neighbor, weight in neighbors.items():
+                current_distance, _ = predecessors[node]
+                accumulated_weight = current_distance + weight
+                if accumulated_weight < predecessors[neighbor][0]:
+                    predecessors[neighbor] = (accumulated_weight, node)
                     updated = True
         if not updated:
             break
 
     # Check for negative cycles
-    for departure, arrivals in graph.items():
-        for arrival, cost in arrivals.items():
-            current_distance, _ = predecessors[departure]
-            new_accumulated_cost = current_distance + cost
-            if new_accumulated_cost < predecessors[arrival][0]:
+    for node, neighbors in graph.items():
+        for neighbor, weight in neighbors.items():
+            current_distance, _ = predecessors[node]
+            accumulated_weight = current_distance + weight
+            if accumulated_weight < predecessors[neighbor][0]:
                 raise Exception("Negative cycle detected")
 
     # Construct path
     paths = []
 
-    for arrival, (_, predecessor) in predecessors.items():
-        if arrival == origin:
+    for neighbor, (_, predecessor) in predecessors.items():
+        if neighbor == origin:
             paths.append([origin])
         elif predecessor is None:
             continue
         else:
-            path = [arrival]
+            path = [neighbor]
             while predecessor != origin:
                 path.insert(0, predecessor)
                 _, predecessor = predecessors[predecessor]
