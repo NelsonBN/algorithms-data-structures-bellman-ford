@@ -41,7 +41,7 @@ graph2 = {
 }
 
 origin = 'A'
-graph = graph1
+graph = graph2
 
 distances = bellman_ford(graph, origin)
 for key, value in distances.items():

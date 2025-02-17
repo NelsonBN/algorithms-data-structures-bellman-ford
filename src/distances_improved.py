@@ -15,7 +15,7 @@ def bellman_ford(graph, origin):
                     distances[neighbor] = accumulated_weight
                     updated = True
         if not updated:
-            break
+            return distances
 
     # Check for negative cycles
     for node, neighbors in graph.items():
